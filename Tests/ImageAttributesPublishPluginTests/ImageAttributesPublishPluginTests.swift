@@ -1,15 +1,16 @@
+import ImageAttributesPublishPlugin
+import Ink
 import XCTest
-@testable import ImageAttributesPublishPlugin
 
 final class ImageAttributesPublishPluginTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(ImageAttributesPublishPlugin().text, "Hello, World!")
+
+    func test_parse_single_attribute() throws {
+        let parser = MarkdownParser(modifiers: [.imageAttributes()])
+        let html = parser.html(from: "![](https://example/image.png width=400)")
+        XCTAssertEqual(html, #"<img src="https://example/image.png" width="400"/>"#)
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("test_parse_single_attribute", test_parse_single_attribute),
     ]
 }
