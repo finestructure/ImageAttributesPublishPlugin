@@ -29,10 +29,10 @@ final class ImageAttributesPublishPluginTests: XCTestCase {
         XCTAssertEqual(html, #"<img src="https://example/image.png" alt="title" width="400"/>"#)
     }
 
-    func test_parse_single_attribute_with_link_title() throws {
+    func test_parse_generic_attributes() throws {
         let parser = MarkdownParser(modifiers: [.imageAttributes()])
-        let html = parser.html(from: "![title](https://example/image.png width=400)")
-        XCTAssertEqual(html, #"<img src="https://example/image.png" alt="title" width="400"/>"#)
+        let html = parser.html(from: "![](https://example/image.png foo=1 bar=baz)")
+        XCTAssertEqual(html, #"<img src="https://example/image.png" bar="baz" foo="1"/>"#)
     }
 
     static var allTests = [
