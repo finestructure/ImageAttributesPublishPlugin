@@ -47,6 +47,19 @@ final class ImageAttributesPublishPluginTests: XCTestCase {
         XCTAssertEqual(html, #"<img src="https://example/image.png" bar="baz" foo="1"/>"#)
     }
 
+    func test_issue_2() throws {
+        let  input = """
+            ![An "Arena Gala" on iPad][image-1]
+
+            [image-1]:    https://foo.com/image.png width=954
+            """
+        let parser = MarkdownParser(modifiers: [.imageAttributes()])
+        let html = parser.html(from: input)
+        XCTAssertEqual(html,
+                       #"<img src="https://example/image.png" alt="An &#34;Arena Gala&#34; on iPad"  width="954"/>"#)
+        //            #"<img src="https://foo.com/image.png width=954" alt="An "Arena Gala" on iPad"/>"#
+    }
+
     static var allTests = [
         ("test_parse_single_attribute", test_parse_single_attribute),
     ]
