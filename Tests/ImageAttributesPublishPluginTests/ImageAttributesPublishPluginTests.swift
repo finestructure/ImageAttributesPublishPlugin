@@ -29,6 +29,18 @@ final class ImageAttributesPublishPluginTests: XCTestCase {
         XCTAssertEqual(html, #"<img src="https://example/image.png" alt="title" width="400"/>"#)
     }
 
+    func test_parse_single_attribute_with_link_title_with_spaces() throws {
+        let parser = MarkdownParser(modifiers: [.imageAttributes()])
+        let html = parser.html(from: "![title text](https://example/image.png width=400)")
+        XCTAssertEqual(html, #"<img src="https://example/image.png" alt="title text" width="400"/>"#)
+    }
+
+    func test_parse_single_attribute_with_link_title_with_quotes() throws {
+        let parser = MarkdownParser(modifiers: [.imageAttributes()])
+        let html = parser.html(from: "![some \"title\" text](https://example/image.png width=400)")
+        XCTAssertEqual(html, #"<img src="https://example/image.png" alt="some &#34;title&#34; text" width="400"/>"#)
+    }
+
     func test_parse_generic_attributes() throws {
         let parser = MarkdownParser(modifiers: [.imageAttributes()])
         let html = parser.html(from: "![](https://example/image.png foo=1 bar=baz)")

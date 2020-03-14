@@ -1,4 +1,5 @@
 import Foundation
+import HTMLString
 import Ink
 import Publish
 
@@ -82,7 +83,7 @@ public extension Modifier {
                 .dropFirst()
                 .compactMap(Attribute.init)
             if !title.isEmpty {
-                attributes.append(Attribute(key: "alt", value: String(title)))
+                attributes.append(Attribute(key: "alt", value: String(title).addingUnicodeEntities))
             }
             attributes.sort(by: { $0.key < $1.key })
 
